@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phasmophobia Cheat</title>
+    <style>
+        #evidenceCheck {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Phasmophobia Cheat Page</h2>
+    <div><b><i>Evidence</i></b></div>
+    <div id="evidenceCheck"></div>
+    <hr>
+    <div id="ghostTypes"></div>
+    <script>
+        const evidences = [
+            { code: 'emf', label: 'emf level 5' },
+            { code: 'orb', label: 'ghost orb' },
+            { code: 'write', label: 'writing' },
+            { code: 'freeze', label: 'freezing temps' },
+            { code: 'spirit', label: 'spirit box' },
+            { code: 'hand', label: 'hand print' },
+        ],
+            ghostEvidences = [
+                { ghost: 'demon', evidenceCode: ['write', 'freeze', 'spirit'] },
+                { ghost: 'yurei', evidenceCode: ['orb', 'write', 'freeze'] },
+                { ghost: 'jinn', evidenceCode: ['emf', 'orb', 'spirit'] },
+                { ghost: 'mare', evidenceCode: ['orb', 'freeze', 'spirit'] },
+                { ghost: 'oni', evidenceCode: ['emf', 'write', 'spirit'] },
+                { ghost: 'poltergeist', evidenceCode: ['orb', 'spirit', 'hand'] },
+                { ghost: 'banshee', evidenceCode: ['emf', 'freeze', 'hand'] },
+                { ghost: 'revenant', evidenceCode: ['emf', 'write', 'hand'] },
+                { ghost: 'shade', evidenceCode: ['emf', 'orb', 'write'] },
+                { ghost: 'spirit', evidenceCode: ['write', 'spirit', 'hand'] },
+                { ghost: 'wraith', evidenceCode: ['freeze', 'spirit', 'hand'] },
+                { ghost: 'phantom', evidenceCode: ['emf', 'orb', 'freeze'] }
+            ];
+
+        Array.prototype.diff = function (a) {
+            return this.filter(function (i) { return a.indexOf(i) < 0; });
+        };
+
+        const hasSubArray = (master, sub) => sub.every((i => v => i = master.indexOf(v, i) + 1)(0));
+
+        const checkGhost = () => {
+            let evidenceSelected = [];
+
+            document.getElementById('ghostTypes').innerHTML = '';
+
+            for (let evidence of evidences) {
+                if (document.getElementById(evidence.code).checked) {
+                    evidenceSelected.push(evidence.code);
+                }
+            }
+
+            for (let ghostEvidence of ghostEvidences) {
+                let leftEvidence = ghostEvidence.evidenceCode.diff(evidenceSelected);
+                if (hasSubArray(ghostEvidence.evidenceCode, evidenceSelected)) {
+
+                    document.getElementById('ghostTypes').innerHTML += ('<div>' + ghostEvidence.ghost + ' - ' + leftEvidence + '</div>').toUpperCase();
+                }
+            };
+        }
+
+        for (let ghostEvidence of ghostEvidences) {
+            document.getElementById('ghostTypes').innerHTML += ('<div>' + ghostEvidence.ghost + '</div>').toUpperCase();
+        }
+
+        for (let evidence of evidences) {
+            // document.getElementById('evidenceCheck').innerHTML += '<input onclick="checkGhost()" type="checkbox" id="NO' + evidence.code + '" value="code">';
+            // document.getElementById('evidenceCheck').innerHTML += '<label for="NO' + evidence.code + '">NO</label>';
+            document.getElementById('evidenceCheck').innerHTML += '<input onclick="checkGhost()" type="checkbox" id="' + evidence.code + '" value="code">';
+            document.getElementById('evidenceCheck').innerHTML += '<label for="' + evidence.code + '">' + evidence.label.toUpperCase() + '</label><br>';
+        }
+
+    </script>
+</body>
+
+</html>
